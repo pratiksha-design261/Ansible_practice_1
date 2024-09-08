@@ -1,0 +1,30 @@
+-
+  name: install and make sure enable HHTP service
+  hosts: ansible_servers
+  become: yes
+  tasks:
+  - name: update package cache
+    ansible.builtin.apt:
+      update_cache: yes   
+
+  - name: install apache2
+    ansible.builtin.apt:
+      name: apache2
+      state: present
+
+  - name: Stop other potential services using port 80
+    ansible.builtin.command:
+      cmd: |
+        for service in $(sudo lsof -i 80 | grep LISTEN | awk '${print $1} | sort | uniqu'); do
+          sudo systemctl stop $service || true
+        done
+    ignore_errors: yes
+
+  
+
+  - name: Start and enable HTTP
+    ansible.builtin.service:
+      name: apache2
+      state: started
+      enabled: yes
+      

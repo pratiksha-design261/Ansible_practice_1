@@ -1,0 +1,8 @@
+-
+  name: show date
+  hosts: ansible_servers
+  tasks: 
+    - name: This should show date
+      command: date
+    - name: This should show uptime
+      command: uptime

@@ -1,0 +1,6 @@
+-
+  name: Install Nginx via Nginx role
+  hosts: ansible_servers
+  become: yes
+  roles:
+    - nginx
